@@ -8,7 +8,7 @@ Name:		kernel-plustek-sane
 %define	bver	0.45
 %define	sver	5
 Version:	%{bver}.%{sver}
-%define	_rel	3
+%define	_rel	4
 Release:	%{_rel}
 License:	BSD
 Group:		Base/Kernel
