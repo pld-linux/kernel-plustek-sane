@@ -1,6 +1,6 @@
 #
 # Conditional build:
-# _without_dist_kernel	- without distribution kernel
+%bcond_without	dist_kernel	# without distribution kernel
 #
 Summary:	Plustek scanner kernel module
 Summary(pl):	Modu³ j±dra dla skanerów Plustek
@@ -17,7 +17,7 @@ Source0:	http://www.gjaeger.de/scanner/current/plustek-sane-%{bver}-%{sver}.tar.
 Patch0:		%{name}-Makefile.patch
 Patch1:		%{name}-alpha.patch
 URL:		http://www.gjaeger.de/scanner/plustek.html
-%{!?_without_dist_kernel:BuildRequires:	kernel-headers}
+%{?with_dist_kernel:BuildRequires:	kernel-headers}
 BuildRequires:	%{kgcc_package}
 BuildRequires:	rpmbuild(macros) >= 1.118
 ExcludeArch:	sparc sparcv9 sparc64
@@ -34,7 +34,7 @@ Summary:	Plustek scanner kernel module
 Summary(pl):	Modu³ j±dra dla skanerów Plustek
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
-%{!?_without_dist_kernel:%requires_releq_kernel_up}
+%{?with_dist_kernel:%requires_releq_kernel_up}
 Requires(post,postun):	/sbin/depmod
 Requires:	sane-backends >= 1.0.7
 Requires:	sane-backends-plustek >= 1.0.7
@@ -50,7 +50,7 @@ Summary:	Plustek scanner kernel SMP module
 Summary(pl):	Modu³ j±dra SMP dla skanerów Plustek
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
-%{!?_without_dist_kernel:%requires_releq_kernel_smp}
+%{?with_dist_kernel:%requires_releq_kernel_smp}
 Requires(post,postun):	/sbin/depmod
 Requires:	sane-backends >= 1.0.7
 Requires:	sane-backends-plustek >= 1.0.7
