@@ -17,7 +17,7 @@ Source0:	http://www.gjaeger.de/scanner/current/plustek-sane-%{bver}-%{sver}.tar.
 Patch0:		%{name}-Makefile.patch
 Patch1:		%{name}-alpha.patch
 URL:		http://www.gjaeger.de/scanner/plustek.html
-%{!?_without_dist_kernel:BuildRequires:         kernel-headers}
+%{!?_without_dist_kernel:BuildRequires:	kernel-headers}
 BuildRequires:	%{kgcc_package}
 BuildRequires:	rpmbuild(macros) >= 1.118
 ExcludeArch:	sparc sparcv9 sparc64
@@ -81,7 +81,7 @@ install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
 install  backend/plustek_driver/pt_drv.o.smp	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc/pt_drv.o
 install  backend/plustek_driver/pt_drv.o	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
 
-%clean 
+%clean
 rm -rf $RPM_BUILD_ROOT
 
 %post	-n kernel-char-plustek
