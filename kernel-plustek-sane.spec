@@ -13,6 +13,7 @@ Release:	%{_rel}
 License:	BSD
 Group:		Base/Kernel
 Source0:	http://www.gjaeger.de/scanner/current/plustek-sane-%{bver}-%{sver}.tar.gz
+# Source0-md5:	ca8f7b1f7ee35b3c09caf0cb16dc6b88
 Patch0:		%{name}-Makefile.patch
 Patch1:		%{name}-alpha.patch
 URL:		http://www.gjaeger.de/scanner/plustek.html
