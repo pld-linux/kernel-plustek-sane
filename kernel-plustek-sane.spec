@@ -19,7 +19,7 @@ Patch1:		%{name}-alpha.patch
 URL:		http://www.gjaeger.de/scanner/plustek.html
 %{!?_without_dist_kernel:BuildRequires:         kernel-headers}
 BuildRequires:	%{kgcc_package}
-BuildRequires:  rpmbuild(macros) >= 1.118
+BuildRequires:	rpmbuild(macros) >= 1.118
 ExcludeArch:	sparc sparcv9 sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
