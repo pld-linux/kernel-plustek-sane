@@ -6,7 +6,7 @@ Summary:	Plustek scanner kernel module
 Summary(pl):	Modu³ j±dra dla skanerów Plustek
 Name:		kernel-plustek-sane
 %define	bver	0.45
-%define	sver	4
+%define	sver	5
 Version:	%{bver}.%{sver}
 %define	_rel	1
 Release:	%{_rel}
