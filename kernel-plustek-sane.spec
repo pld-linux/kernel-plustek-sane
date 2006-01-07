@@ -8,7 +8,7 @@ Name:		kernel-plustek-sane
 %define	bver	0.45
 %define	sver	5
 Version:	%{bver}.%{sver}
-%define	_rel	4
+%define	_rel	4.x
 Release:	%{_rel}
 License:	BSD
 Group:		Base/Kernel
@@ -18,7 +18,7 @@ Patch0:		%{name}-Makefile.patch
 Patch1:		%{name}-alpha.patch
 URL:		http://www.gjaeger.de/scanner/plustek.html
 %{?with_dist_kernel:BuildRequires:	kernel-headers}
-BuildRequires:	%{kgcc_package}
+#BuildRequires:	%{kgcc_package}
 BuildRequires:	rpmbuild(macros) >= 1.118
 ExcludeArch:	sparc sparcv9 sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -67,11 +67,34 @@ Pakiet zawiera modu³ j±dra SMP steruj±cy skanerami Plustek.
 %patch1 -p1
 
 %build
-cd backend/plustek_driver
-%{__make} all BUILD_SMP=1 OPT_FLAGS="%{rpmcflags}"
-mv -f pt_drv.o{,.smp}
-%{__make} clean
-%{__make} all OPT_FLAGS="%{rpmcflags}" CC=%{kgcc}
+cd backend/plustek_driver/src
+## generate new makefile
+echo "obj-y := pt_drv" >Makefile
+echo "pt_drv-y := dac.o detect.o generic.o image.o map.o misc.o models.o io.o procfs.o motor.o p9636.o ptdrv.o scale.o tpa.o p48xx.o p12.o p12ccd.o">>Makefile
+# kernel module(s)
+for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}; do
+        if [ ! -r "%{_kernelsrcdir}/config-$cfg" ]; then
+                exit 1
+        fi
+        rm -rf include
+        install -d include/{linux,config}
+        ln -sf %{_kernelsrcdir}/config-$cfg .config
+        ln -sf %{_kernelsrcdir}/include/linux/autoconf-$cfg.h include/linux/autoconf.h
+        ln -sf %{_kernelsrcdir}/include/asm-%{_target_base_arch} include/asm
+        ln -sf %{_kernelsrcdir}/Module.symvers-$cfg Module.symvers
+        touch include/config/MARKER
+
+        %{__make} -C %{_kernelsrcdir} clean \
+                RCS_FIND_IGNORE="-name '*.ko' -o" \
+                M=$PWD O=$PWD \
+                %{?with_verbose:V=1}
+        %{__make} -C %{_kernelsrcdir} modules \
+                CC="%{__cc}" \
+                M=$PWD O=$PWD \
+                %{?with_verbose:V=1}
+        mv iscsi_sfnet{,-$cfg}.ko
+done
+cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
