@@ -69,8 +69,8 @@ Pakiet zawiera modu³ j±dra SMP steruj±cy skanerami Plustek.
 %build
 cd backend/plustek_driver/src
 ## generate new makefile
-echo "obj-y := pt_drv" >Makefile
-echo "pt_drv-y := dac.o detect.o generic.o image.o map.o misc.o models.o io.o procfs.o motor.o p9636.o ptdrv.o scale.o tpa.o p48xx.o p12.o p12ccd.o">>Makefile
+echo "obj-m := pt_drv.o" >Makefile
+echo "pt_drv-m := dac.o detect.o generic.o image.o map.o misc.o models.o io.o procfs.o motor.o p9636.o ptdrv.o scale.o tpa.o p48xx.o p12.o p12ccd.o">>Makefile
 # kernel module(s)
 for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}; do
         if [ ! -r "%{_kernelsrcdir}/config-$cfg" ]; then
