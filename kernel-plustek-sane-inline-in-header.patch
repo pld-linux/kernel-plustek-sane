@@ -1,0 +1,70 @@
+diff -ur kernel-plustek-sane-0.45.5/backend/plustek_driver/h/plustek_procs.h kernel-plustek-sane-0.45.5.inline-in-header/backend/plustek_driver/h/plustek_procs.h
+--- kernel-plustek-sane-0.45.5/backend/plustek_driver/h/plustek_procs.h	2002-07-13 16:25:39.000000000 +0000
++++ kernel-plustek-sane-0.45.5.inline-in-header/backend/plustek_driver/h/plustek_procs.h	2006-01-07 02:38:04.000000000 +0000
+@@ -64,6 +64,47 @@
+ inline void MiscStartTimer  ( pTimerDef timer, unsigned long us );
+ inline int  MiscCheckTimer  ( pTimerDef timer );
+ 
++/*.............................................................................
++ * starts a timer
++ */
++inline void MiscStartTimer( pTimerDef timer , unsigned long us)
++{
++    struct timeval start_time;
++
++#ifdef __KERNEL__
++	_GET_TIME( &start_time );
++#else
++	gettimeofday(&start_time, NULL);	
++#endif
++
++    *timer =  start_time.tv_sec * 1e6 + start_time.tv_usec + us;
++}
++
++/*.............................................................................
++ * checks for timeout
++ */
++inline int MiscCheckTimer( pTimerDef timer )
++{
++    struct timeval current_time;
++
++#ifdef __KERNEL__
++	_GET_TIME( &current_time );
++#else
++	gettimeofday(&current_time, NULL);
++#endif
++
++    if (current_time.tv_sec * 1e6 + current_time.tv_usec > *timer) {
++		return _E_TIMEOUT;
++    } else {
++#ifdef __KERNEL__       
++		schedule();
++#else
++		sched_yield();
++#endif
++		return _OK;
++	}
++}
++
+ int  MiscRegisterPort       ( pScanData ps, int portAddr );
+ void MiscUnregisterPort     ( pScanData ps );
+ int  MiscClaimPort	        ( pScanData ps );
+diff -ur kernel-plustek-sane-0.45.5/backend/plustek_driver/src/misc.c kernel-plustek-sane-0.45.5.inline-in-header/backend/plustek_driver/src/misc.c
+--- kernel-plustek-sane-0.45.5/backend/plustek_driver/src/misc.c	2002-03-25 21:05:44.000000000 +0000
++++ kernel-plustek-sane-0.45.5.inline-in-header/backend/plustek_driver/src/misc.c	2006-01-07 02:38:30.000000000 +0000
+@@ -737,6 +737,7 @@
+ #endif
+ }
+ 
++#if 0
+ /*.............................................................................
+  * starts a timer
+  */
+@@ -777,6 +778,7 @@
+ 		return _OK;
+ 	}
+ }
++#endif
+ 
+ /*.............................................................................
+  * checks the function pointers
