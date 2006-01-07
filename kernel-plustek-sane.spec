@@ -16,6 +16,7 @@ Source0:	http://www.gjaeger.de/scanner/current/plustek-sane-%{bver}-%{sver}.tar.
 # Source0-md5:	ca8f7b1f7ee35b3c09caf0cb16dc6b88
 Patch0:		%{name}-Makefile.patch
 Patch1:		%{name}-alpha.patch
+Patch2:		%{name}-inline-in-header.patch
 URL:		http://www.gjaeger.de/scanner/plustek.html
 %{?with_dist_kernel:BuildRequires:	kernel-headers}
 #BuildRequires:	%{kgcc_package}
@@ -65,14 +66,16 @@ Pakiet zawiera modu³ j±dra SMP steruj±cy skanerami Plustek.
 %setup -q -c
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 cd backend/plustek_driver/src
 ## generate new makefile
 echo "obj-m := pt_drv.o" >Makefile
-echo "pt_drv-objs := dac.o detect.o generic.o image.o map.o misc.o models.o" \
+echo "pt_drv-objs := dac.o detect.o genericio.o image.o map.o misc.o models.o" \
 	"io.o procfs.o motor.o p9636.o ptdrv.o scale.o tpa.o p48xx.o p12.o" \
 	"p12ccd.o" >> Makefile
+echo "CFLAGS += -D_PTDRV_V1=0 -D_PTDRV_V0=42 -D_PTDRV_BUILD=10" >> Makefile
 cp ../h/*.h .
 cp ../../plustek-share.h .
 # kernel module(s)
