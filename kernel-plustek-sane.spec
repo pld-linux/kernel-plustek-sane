@@ -80,26 +80,26 @@ cp ../h/*.h .
 cp ../../plustek-share.h .
 # kernel module(s)
 for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}; do
-        if [ ! -r "%{_kernelsrcdir}/config-$cfg" ]; then
-                exit 1
-        fi
-        rm -rf include
-        install -d include/{linux,config}
-        ln -sf %{_kernelsrcdir}/config-$cfg .config
-        ln -sf %{_kernelsrcdir}/include/linux/autoconf-$cfg.h include/linux/autoconf.h
-        ln -sf %{_kernelsrcdir}/include/asm-%{_target_base_arch} include/asm
-        ln -sf %{_kernelsrcdir}/Module.symvers-$cfg Module.symvers
-        touch include/config/MARKER
+	if [ ! -r "%{_kernelsrcdir}/config-$cfg" ]; then
+		exit 1
+	fi
+	rm -rf include
+	install -d include/{linux,config}
+	ln -sf %{_kernelsrcdir}/config-$cfg .config
+	ln -sf %{_kernelsrcdir}/include/linux/autoconf-$cfg.h include/linux/autoconf.h
+	ln -sf %{_kernelsrcdir}/include/asm-%{_target_base_arch} include/asm
+	ln -sf %{_kernelsrcdir}/Module.symvers-$cfg Module.symvers
+	touch include/config/MARKER
 
-        %{__make} -C %{_kernelsrcdir} clean \
-                RCS_FIND_IGNORE="-name '*.ko' -o" \
-                M=$PWD O=$PWD \
-                %{?with_verbose:V=1}
-        %{__make} -C %{_kernelsrcdir} modules \
-                CC="%{__cc}" \
-                M=$PWD O=$PWD \
-                %{?with_verbose:V=1}
-        mv iscsi_sfnet{,-$cfg}.ko
+	%{__make} -C %{_kernelsrcdir} clean \
+		RCS_FIND_IGNORE="-name '*.ko' -o" \
+		M=$PWD O=$PWD \
+		%{?with_verbose:V=1}
+	%{__make} -C %{_kernelsrcdir} modules \
+		CC="%{__cc}" \
+		M=$PWD O=$PWD \
+		%{?with_verbose:V=1}
+	mv iscsi_sfnet{,-$cfg}.ko
 done
 cd ..
 
@@ -108,8 +108,8 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
 install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
 
-install  backend/plustek_driver/pt_drv.o.smp	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc/pt_drv.o
-install  backend/plustek_driver/pt_drv.o	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
+install backend/plustek_driver/pt_drv.o.smp	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc/pt_drv.o
+install backend/plustek_driver/pt_drv.o		$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
 
 %clean
 rm -rf $RPM_BUILD_ROOT
