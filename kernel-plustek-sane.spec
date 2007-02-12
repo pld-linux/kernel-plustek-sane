@@ -3,7 +3,7 @@
 %bcond_without	dist_kernel	# without distribution kernel
 #
 Summary:	Plustek scanner kernel module
-Summary(pl):	Modu³ j±dra dla skanerów Plustek
+Summary(pl.UTF-8):   ModuÅ‚ jÄ…dra dla skanerÃ³w Plustek
 Name:		kernel-plustek-sane
 %define	bver	0.45
 %define	sver	5
@@ -27,12 +27,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 This package contains kernel module which drives Plustek scanners.
 
-%description -l pl
-Pakiet zawiera modu³ j±dra steruj±cy skanerami Plustek.
+%description -l pl.UTF-8
+Pakiet zawiera moduÅ‚ jÄ…dra sterujÄ…cy skanerami Plustek.
 
 %package -n kernel-char-plustek
 Summary:	Plustek scanner kernel module
-Summary(pl):	Modu³ j±dra dla skanerów Plustek
+Summary(pl.UTF-8):   ModuÅ‚ jÄ…dra dla skanerÃ³w Plustek
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 %{?with_dist_kernel:%requires_releq_kernel_up}
@@ -43,12 +43,12 @@ Requires:	sane-backends-plustek >= 1.0.7
 %description -n kernel-char-plustek
 This package contains kernel module which drives Plustek scanners.
 
-%description -n kernel-char-plustek -l pl
-Pakiet zawiera modu³ j±dra steruj±cy skanerami Plustek.
+%description -n kernel-char-plustek -l pl.UTF-8
+Pakiet zawiera moduÅ‚ jÄ…dra sterujÄ…cy skanerami Plustek.
 
 %package -n kernel-smp-char-plustek
 Summary:	Plustek scanner kernel SMP module
-Summary(pl):	Modu³ j±dra SMP dla skanerów Plustek
+Summary(pl.UTF-8):   ModuÅ‚ jÄ…dra SMP dla skanerÃ³w Plustek
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 %{?with_dist_kernel:%requires_releq_kernel_smp}
@@ -59,8 +59,8 @@ Requires:	sane-backends-plustek >= 1.0.7
 %description -n kernel-smp-char-plustek
 This package contains kernel SMP module which drives Plustek scanners.
 
-%description -n kernel-smp-char-plustek -l pl
-Pakiet zawiera modu³ j±dra SMP steruj±cy skanerami Plustek.
+%description -n kernel-smp-char-plustek -l pl.UTF-8
+Pakiet zawiera moduÅ‚ jÄ…dra SMP sterujÄ…cy skanerami Plustek.
 
 %prep
 %setup -q -c
