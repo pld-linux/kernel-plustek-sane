@@ -3,7 +3,7 @@
 %bcond_without	dist_kernel	# without distribution kernel
 #
 Summary:	Plustek scanner kernel module
-Summary(pl.UTF-8):   Moduł jądra dla skanerów Plustek
+Summary(pl.UTF-8):	Moduł jądra dla skanerów Plustek
 Name:		kernel-plustek-sane
 %define	bver	0.45
 %define	sver	5
@@ -32,7 +32,7 @@ Pakiet zawiera moduł jądra sterujący skanerami Plustek.
 
 %package -n kernel-char-plustek
 Summary:	Plustek scanner kernel module
-Summary(pl.UTF-8):   Moduł jądra dla skanerów Plustek
+Summary(pl.UTF-8):	Moduł jądra dla skanerów Plustek
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 %{?with_dist_kernel:%requires_releq_kernel_up}
@@ -48,7 +48,7 @@ Pakiet zawiera moduł jądra sterujący skanerami Plustek.
 
 %package -n kernel-smp-char-plustek
 Summary:	Plustek scanner kernel SMP module
-Summary(pl.UTF-8):   Moduł jądra SMP dla skanerów Plustek
+Summary(pl.UTF-8):	Moduł jądra SMP dla skanerów Plustek
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 %{?with_dist_kernel:%requires_releq_kernel_smp}
